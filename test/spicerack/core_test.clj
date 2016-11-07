@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [spicerack.core :refer :all]))
 
-(def test-filename "test-db")
+(def test-filename "./test-db")
 
 (defn cleanup
   "Removes the test database. To be used before and after testing."
