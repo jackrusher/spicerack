@@ -1,4 +1,4 @@
-(defproject spicerack "0.1.0-SNAPSHOT"
+(defproject spicerack "0.1.0"
   :description "A Clojure wrapper for MapDB, which is a fast, disk-persistent data-structure library."
   :url "https://github.com/jackrusher/spicerack"
   :license {:name "Eclipse Public License"

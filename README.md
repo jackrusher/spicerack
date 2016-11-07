@@ -15,6 +15,10 @@ own projects.
 
 # Usage #
 
+``` clojure
+[spicerack "0.1.0"]
+```
+
 There are only a handful of functions in this wrapper. It provides
 `open-database` and `close` (though it's best to use clojure's
 `with-open` macro), `put!`, `remove!`, `update!` and getting is done
