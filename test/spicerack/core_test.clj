@@ -13,6 +13,17 @@
 
 (cleanup)
 
+(deftest parameter-checks
+  (testing "catche bad param values"
+    (is (= :asserted)
+        (try
+          (open-database test-filename :x)
+          (catch java.lang.AssertionError e :asserted)))
+    (is (= :asserted)
+        (try
+          (open-hashmap :a :b :c)
+          (catch java.lang.AssertionError e :asserted)))))
+
 (deftest file-backed-hashmap
   (testing "basic operations on file-backed hashmap"
     (let [test-vector (mapv vector (range 1 10) (range 100 110))]
@@ -40,10 +51,12 @@
           (is (= test-vector (put! hm :test-vector test-vector)))
           ;; still there?
           (is (= test-vector (get hm :test-vector)))))
-      ;; now the db is closed, try re-opening and reading
-      (with-open [db (open-database test-filename)]
-        (let [hm (open-hashmap db "test-hashmap")]
+      ;; now the db is closed, re-open it read-only and read
+      (with-open [db (open-database test-filename :read-only? true)]
+        (let [hm (open-hashmap db "test-hashmap" :read-only? true)]
           ;; still there?
           (is (= test-vector (get hm :test-vector))))))
     ;; test-db file is really there to delete
     (is (= true (cleanup)))))
+
+

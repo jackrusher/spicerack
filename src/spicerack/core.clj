@@ -24,21 +24,22 @@
 ;; DATABASE
 
 (defn open-database
-  "Open a MapDB database backed by `filename`, attempting to create filename's parent directories if needed. The `params` hash-map currently accepts a key of :read-only? defaulting to 'false'."
-  ([filename params]
-   (let [params (merge {:read-only? false} params)]
-     (if (:read-only? params)
-       (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
-           (.fileMmapEnable)
-           (.readOnly)
-           (.make))
-       (do
-         ;; ensure parent directories exist
-         (.mkdirs (java.io.File. (.getParent (java.io.File. filename)))) 
-         (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
-             (.fileMmapEnable)
-             (.make))))))
-  ([filename] (open-database filename nil)))
+  "Open a MapDB database backed by `filename`, attempting to create filename's parent directories if needed. The `params` currently accept a key of :read-only? defaulting to 'false'."
+  [filename & params]
+  (assert (or (= nil params) (even? (count params)))
+          "The params to open-database must be an even number of key-value pairs.")
+  (let [params (merge {:read-only? false} (apply hash-map params))]
+    (if (:read-only? params)
+      (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
+          (.fileMmapEnable)
+          (.readOnly)
+          (.make))
+      (do
+        ;; ensure parent directories exist
+        (.mkdirs (java.io.File. (.getParent (java.io.File. filename)))) 
+        (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
+            (.fileMmapEnable)
+            (.make))))))
 
 (defn commit
   "Commit pending changes to this database."
@@ -99,20 +100,18 @@
    :uuid               org.mapdb.Serializer/UUID})
 
 (defn open-hashmap
-  "Create or re-open a MapDB hashmap named `hashmap-name` in `db`. Params are: `key-serializer` and `value-serializer` to select serializers for keys and values, and `read-only?` to open the hashmap in read-only mode."
-  ([db hashmap-name params]
-   (let [params (merge {:read-only? false
-                        :key-serializer :java
-                        :value-serializer :java}
-                       params)
-         hmap   (.hashMap db
-                          hashmap-name
-                          (serializers (:key-serializer params))
-                          (serializers (:value-serializer params)))]
-     (if (:read-only? params)
-       (.open hmap)
-       (.createOrOpen hmap))))
-  ([db hashmap-name] (open-hashmap db hashmap-name nil)))
+  "Create or re-open a MapDB hashmap named `hashmap-name` in `db`. Params are: :key-serializer and :value-serializer to select serializers for keys and/or values (this is done for performance)."
+  [db hashmap-name & params]
+  (assert (or (= nil params) (even? (count params)))
+          "The params to open-hashmap must be an even number of key-value pairs.")
+  (let [params (merge {:key-serializer :java
+                       :value-serializer :java}
+                      (apply hash-map params))
+        hmap   (.hashMap db
+                         hashmap-name
+                         (serializers (:key-serializer params))
+                         (serializers (:value-serializer params)))]
+    (.createOrOpen hmap)))
 
 (defn put!
   "Write the key/value pair (`k`,`v`) to hashmap `m`. Returns v."
