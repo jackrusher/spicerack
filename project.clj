@@ -12,4 +12,5 @@
                   :exclusions [org.eclipse.collections/eclipse-collections-api
                                org.eclipse.collections/eclipse-collections
                                org.eclipse.collections/eclipse-collections-forkjoin
-                               com.google.guava/guava]]])
+                               com.google.guava/guava]]]
+  :deploy-repositories [["releases" :clojars]])
