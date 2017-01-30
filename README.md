@@ -28,7 +28,7 @@ There are only a handful of functions in this wrapper. It provides
 `update!`.  Getting is done with `clojure.core`'s `get` function.
 
 ``` clojure
-(require '[spicerack :refer [open-database open-hashmap put! update!]])
+(require '[spicerack.core :refer [open-database open-hashmap put! update!]])
 
 (with-open [db (open-database "./baking-db")]
   (let [ingredients (open-hashmap db "ingredient-hashmap")]
