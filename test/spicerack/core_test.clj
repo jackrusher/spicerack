@@ -59,4 +59,11 @@
     ;; test-db file is really there to delete
     (is (= true (cleanup)))))
 
+(deftest database-options
+  (testing "By default read-only? is false"
+    (with-open [db (open-database test-filename)]
+      (is (not (.isReadOnly (.getStore db))))))
 
+  (testing "Setting read-only? to true"
+    (with-open [db (open-database test-filename :read-only? true)]
+      (is (.isReadOnly (.getStore db))))))
