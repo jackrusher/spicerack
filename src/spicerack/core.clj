@@ -23,23 +23,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; DATABASE
 
+(def database-default-opts
+  {:file-mmap-enable? true
+   :read-only? false
+   :transaction-enable? false
+   :checksum-header-bypass? false})
+
 (defn open-database
   "Open a MapDB database backed by `filename`, attempting to create filename's parent directories if needed. The `params` currently accept a key of :read-only? defaulting to 'false'."
   [filename & params]
   (assert (or (= nil params) (even? (count params)))
           "The params to open-database must be an even number of key-value pairs.")
-  (let [params (merge {:read-only? false} (apply hash-map params))]
-    (if (:read-only? params)
-      (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
-          (.fileMmapEnable)
-          (.readOnly)
-          (.make))
-      (do
-        ;; ensure parent directories exist
-        (.mkdirs (java.io.File. (.getParent (java.io.File. filename)))) 
-        (-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
-            (.fileMmapEnable)
-            (.make))))))
+  (let [params (merge database-default-opts (apply hash-map params))
+        {:keys [file-mmap-enable?
+                read-only?
+                transaction-enable?
+                checksum-header-bypass?]} params]
+    ;; ensure parent directories exist
+    (.mkdirs (java.io.File. (.getParent (java.io.File. filename))))
+    (.make
+     (cond-> (org.mapdb.DBMaker/fileDB (clojure.java.io/file filename))
+       file-mmap-enable?       (.fileMmapEnableIfSupported)
+       read-only?              (.readOnly)
+       transaction-enable?     (.transactionEnable)
+       checksum-header-bypass? (.checksumHeaderBypass)))))
 
 (defn commit
   "Commit pending changes to this database."
