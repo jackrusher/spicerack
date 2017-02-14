@@ -30,7 +30,7 @@
    :checksum-header-bypass? false})
 
 (defn open-database
-  "Open a MapDB database backed by `filename`, attempting to create filename's parent directories if needed. The `params` currently accept a key of :read-only? defaulting to 'false'."
+  "Open a MapDB database backed by `filename`, attempting to create filename's parent directories if needed. See database-default-opts for the defaults."
   [filename & params]
   (assert (or (= nil params) (even? (count params)))
           "The params to open-database must be an even number of key-value pairs.")

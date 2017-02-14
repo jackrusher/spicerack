@@ -42,7 +42,7 @@ See the tests for more examples!
 
 ## License 
 
-Copyright © 2016 Jack Rusher
+Copyright © 2016-2017 Jack Rusher
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
