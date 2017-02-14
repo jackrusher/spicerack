@@ -19,7 +19,7 @@ very useful.
 ## Usage 
 
 ``` clojure
-[spicerack "0.1.1"]
+[spicerack "0.1.2"]
 ```
 
 There are only a handful of functions in this wrapper. It provides
