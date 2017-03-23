@@ -133,8 +133,8 @@
 
 (defn update!
   "Calls function `f` with the current value associated with `k` in hashmap `m` as the parameter, then writes the result back to m. If k has not yet been set, it's previous value will be nil. Returns the value written."
-  [m k f]
-  (let [new-value (f (.get m k))]
+  [m k f & args]
+  (let [new-value (apply f (.get m k) args)]
     (.put m k new-value)
     new-value))
 
