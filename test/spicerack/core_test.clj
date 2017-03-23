@@ -50,7 +50,10 @@
           ;; how about a vector?
           (is (= test-vector (put! hm :test-vector test-vector)))
           ;; still there?
-          (is (= test-vector (get hm :test-vector)))))
+          (is (= test-vector (get hm :test-vector)))
+          ;; update! accepts partial function arguments
+          (is (= {} (put! hm :numbers {})))
+          (is (= {:x 5} (update! hm :numbers assoc :x 5)))))
       ;; now the db is closed, re-open it read-only and read
       (with-open [db (open-database test-filename :read-only? true)]
         (let [hm (open-hashmap db "test-hashmap" :read-only? true)]
