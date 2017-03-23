@@ -19,7 +19,7 @@ very useful.
 ## Usage 
 
 ``` clojure
-[spicerack "0.1.2"]
+[spicerack "0.1.3"]
 ```
 
 There are only a handful of functions in this wrapper. It provides
@@ -34,7 +34,7 @@ There are only a handful of functions in this wrapper. It provides
   (let [ingredients (open-hashmap db "ingredient-hashmap")]
     (put! ingredients :apple-pie [:flour :butter :sugar :apples])
     ;;=> [:flour :butter :sugar :apples]
-    (update! ingredients :apple-pie #(conj % :cinnamon))))
+    (update! ingredients :apple-pie conj :cinnamon)))
     ;;=> [:flour :butter :sugar :apples :cinnamon]
 ```
 

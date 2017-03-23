@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. This change
 ## [Unreleased]
 ### Changed
 
+## [0.1.3] - 2017-03-23
+### Changed
+- `update!` now behaves more like `clojure.core/update` (NB this is a
+  minorly breaking change to the API!)
+
 ## [0.1.2] - 2017-02-14
 ### Fixed
 - Added additional `mapdb` options
