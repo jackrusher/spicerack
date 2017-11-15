@@ -13,4 +13,11 @@
                                org.eclipse.collections/eclipse-collections
                                org.eclipse.collections/eclipse-collections-forkjoin
                                com.google.guava/guava]]]
+  :profiles {:codox {:dependencies [[codox-theme-rdash "0.1.2"]]
+                     :plugins [[lein-codox "0.10.3"]]
+                     :codox {:project {:name "spicerack"}
+                             :metadata {:doc/format :markdown}
+                             :themes [:rdash]
+                             :output-path "gh-pages"}}}
+  :aliases {"codox" ["with-profile" "codox,dev" "codox"]}
   :deploy-repositories [["releases" :clojars]])
