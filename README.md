@@ -3,12 +3,12 @@
 Sometimes, while making tasty computer programs, one needs a place to
 store labeled containers of data. Spicerack is that kind of place.
 
-This is a Clojure wrapper for [MapDB](http://www.mapdb.org) — a fast,
-disk-persistent data-structures library. Like many wrappers around
-Java libraries, this one is woefully incomplete. MapDB supports
-several data structures (Map, Set and List, implemented with trees and
-hashes), and can do fun things with them, like creating a hash table
-that acts as a cache with automatic eviction and change
+This library is a Clojure wrapper for [MapDB](http://www.mapdb.org) —
+a fast, disk-persistent data-structures library. Like many Clojure
+wrappers around Java libraries, this one is incomplete. MapDB supports
+several data structures (`Map`, `Set` and `List`, implemented with
+trees and hashes), and can do fun things with them, like creating a
+hash table that acts as a cache with automatic eviction and change
 listeners. This wrapper doesn't support any of that. It just provides
 an idiomatic way to store something like a Clojure `hash-map` on disk.
 
@@ -38,7 +38,9 @@ There are only a handful of functions in this wrapper. It provides
     ;;=> [:flour :butter :sugar :apples :cinnamon]
 ```
 
-See the tests for more examples!
+There are more examples in the test suite. In additon, there is
+automatically generated [codox](https://github.com/weavejester/codox)
+API documentation [here](https://jackrusher.github.io/spicerack/).
 
 ## License 
 
