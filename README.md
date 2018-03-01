@@ -13,41 +13,41 @@ listeners. This wrapper doesn't support any of that. It just provides
 an idiomatic way to store something like a Clojure `hash-map` on disk.
 
 I plan to add the other data types over time, as I need them for my
-own projects. In the meantime, these features are well-tested, used in
-production, and quite useful.
+own projects. In the meantime, these features are well-tested,
+deployed in production, and quite useful.
 
 ## Usage 
 
 ``` clojure
-[spicerack "0.1.3"]
+[spicerack "0.1.4"]
 ```
 
 There are only a handful of functions in this wrapper. It provides
 `open-database` and `close` (though it's best to use clojure's
-`with-open` macro to handle closing), `put!`, `remove!`, and
+`with-open` macro to handle closing), `assoc!`, `dissoc!`, and
 `update!` for mutation, on top of which `clojure.core`'s `get`
 function can be used to access the value of a given key.
 
 ``` clojure
-(require '[spicerack.core :refer [open-database open-hashmap put! update!]])
+(require '[spicerack.core :refer [open-database open-hashmap assoc! update!]])
 
 (with-open [db (open-database "./baking-db")]
   (let [ingredients (open-hashmap db "ingredient-hashmap")]
-    (put! ingredients :apple-pie [:flour :butter :sugar :apples])
+    (assoc! ingredients :apple-pie [:flour :butter :sugar :apples])
     ;;=> [:flour :butter :sugar :apples]
     (update! ingredients :apple-pie conj :cinnamon)))
     ;;=> [:flour :butter :sugar :apples :cinnamon]
 ```
 
 In addition, Spicerack's `hash-map` implementation can be used like a
-Clojure `hash-map` with the various sequence functions, like `map` and
+normal Clojure `hash-map` with sequence functions such as `map` and
 `reduce`:
 
 ``` clojure
 (with-open [db (open-database test-filename)]
   (let [hm (open-hashmap db "test-hashmap")]
     (doseq [[a b] (map vector (range 10) (range 0 1.0 0.1))]
-      (put! hm a b))
+      (assoc! hm a b))
 
     (get hm 1)
     ;;=> 0.1
@@ -77,6 +77,10 @@ Clojure `hash-map` with the various sequence functions, like `map` and
      {:key 9, :val 0.8999999999999999}
      {:key 4, :val 0.4}]))
 ```
+
+Note that returning a lazy sequence from inside of a `with-open`
+block, then trying to realize that sequence outside of the block, will
+cause an exception to be thrown.
 
 There are more examples in the test suite. In additon, there is
 automatically generated [codox](https://github.com/weavejester/codox)

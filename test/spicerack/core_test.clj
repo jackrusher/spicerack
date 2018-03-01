@@ -1,4 +1,5 @@
 (ns spicerack.core-test
+  (:refer-clojure :exclude [assoc! dissoc!])
   (:require [clojure.test :refer :all]
             [spicerack.core :refer :all]))
 
@@ -31,11 +32,11 @@
         (let [hm (open-hashmap db "test-hashmap")]
           ;; non-existent keys are nil
           (is (= nil (get hm :a-nonexistent-key)))
-          ;; put! returns the new value on success
-          (is (= :there (put! hm :hi :there)))
+          ;; assoc! returns the new value on success
+          (is (= :there (assoc! hm :hi :there)))
           (is (= :there-mom (update! hm :hi #(keyword (str (name %) "-mom")))))
           ;; how about a clojure datastructure as value?
-          (is (= {:a 1 :b 2} (put! hm :test-map {:a 1 :b 2})))
+          (is (= {:a 1 :b 2} (assoc! hm :test-map {:a 1 :b 2})))
           (is (= {:a 1 :b 2} (get hm :test-map)))
           (is (= {:a 1 :b 2
                   :c 3 :d 4} (update! hm :test-map #(merge % {:c 3 :d 4}))))
@@ -44,15 +45,15 @@
                   :c 3 :d 4} (get hm :test-map)))
           ;; remove returns the removed value
           (is (= {:a 1 :b 2
-                  :c 3 :d 4} (remove! hm :test-map)))
+                  :c 3 :d 4} (dissoc! hm :test-map)))
           ;; is it still gone?
           (is (= nil (get hm :test-map)))
           ;; how about a vector?
-          (is (= test-vector (put! hm :test-vector test-vector)))
+          (is (= test-vector (assoc! hm :test-vector test-vector)))
           ;; still there?
           (is (= test-vector (get hm :test-vector)))
           ;; update! accepts partial function arguments
-          (is (= {} (put! hm :numbers {})))
+          (is (= {} (assoc! hm :numbers {})))
           (is (= {:x 5} (update! hm :numbers assoc :x 5)))))
       ;; now the db is closed, re-open it read-only and read
       (with-open [db (open-database test-filename :read-only? true)]

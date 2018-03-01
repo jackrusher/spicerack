@@ -1,9 +1,9 @@
-(defproject spicerack "0.1.3"
+(defproject spicerack "0.1.4"
   :description "A Clojure wrapper for MapDB, which is a fast disk-persistent data-structure library."
   :url "https://github.com/jackrusher/spicerack"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.eclipse.collections/eclipse-collections-api "7.1.1"]
                  [org.eclipse.collections/eclipse-collections "7.1.1"]
                  [org.eclipse.collections/eclipse-collections-forkjoin "7.1.1"]
@@ -21,3 +21,5 @@
                              :output-path "gh-pages"}}}
   :aliases {"codox" ["with-profile" "codox,dev" "codox"]}
   :deploy-repositories [["releases" :clojars]])
+
+

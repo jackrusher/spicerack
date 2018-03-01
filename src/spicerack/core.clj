@@ -1,4 +1,5 @@
-(ns spicerack.core)
+(ns spicerack.core
+  (:refer-clojure :exclude [assoc! dissoc!]))
 
 ;; TODO
 ;;
@@ -120,16 +121,24 @@
                          (serializers (:value-serializer params)))]
     (.createOrOpen hmap)))
 
-(defn put!
+(defn assoc!
   "Write the key/value pair (`k`,`v`) to hashmap `m`. Returns v."
   [m k v]
   (.put m k v)
   v)
 
-(defn remove!
+(def put!
+  "Deprecated! Use assoc! instead. This is an alias for backwards compatibility."
+  assoc!)
+
+(defn dissoc!
   "Remove key `k` from hashmap `m`. Returns the removed value."
   [m k]
   (.remove m k))
+
+(def remove!
+  "Deprecated! Use dissoc! instead. This is an alias for backwards compatibility."
+  dissoc!)
 
 (defn update!
   "Calls function `f` with the current value associated with `k` in hashmap `m` as the parameter, then writes the result back to m. If k has not yet been set, it's previous value will be nil. Returns the value written."
