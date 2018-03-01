@@ -40,7 +40,8 @@ function can be used to access the value of a given key.
 ```
 
 In addition, Spicerack's `hash-map` implementation can be used like a
-Clojure `hash-map` with `map` and `reduce` calls:
+Clojure `hash-map` with the various sequence functions, like `map` and
+`reduce`:
 
 ``` clojure
 (with-open [db (open-database test-filename)]
