@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This change
 ## [Unreleased]
 ### Changed
 
+## [0.1.4] - 2018-03-01
+### Changed
+- `put!` is now `assoc!` (alias remains)
+- `remove!` is now `dissoc!` (alias remains)
+- More examples in README
+
 ## [0.1.3] - 2017-03-23
 ### Changed
 - `update!` now behaves more like `clojure.core/update` (NB this is a
