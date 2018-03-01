@@ -14,7 +14,7 @@
 (cleanup)
 
 (deftest parameter-checks
-  (testing "catche bad param values"
+  (testing "catches bad param values"
     (is (= :asserted)
         (try
           (open-database test-filename :x)
