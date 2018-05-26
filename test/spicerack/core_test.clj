@@ -70,4 +70,11 @@
 
   (testing "Setting read-only? to true"
     (with-open [db (open-database test-filename :read-only? true)]
-      (is (.isReadOnly (.getStore db))))))
+      (is (.isReadOnly (.getStore db)))))
+
+  (testing "Does not create directory if opened read-only?"
+    (cleanup)
+    (is (= :asserted)
+        (try
+          (open-database "./bogus/sudbir/filename" :read-only? true)
+          (catch java.lang.AssertionError e :asserted)))))

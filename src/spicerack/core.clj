@@ -3,6 +3,8 @@
 
 ;; TODO
 ;;
+;; reify clojure.lang.IFn so we can support (hm :key)
+;;
 ;; add other data structures
 ;;
 ;; * hashSet
@@ -40,6 +42,9 @@
                 read-only?
                 transaction-enable?
                 checksum-header-bypass?]} params]
+    ;; don't allow the read-only opening of non-existent files!
+    (if (and read-only? (not (.exists (clojure.java.io/as-file filename))))
+      (throw (AssertionError. (str "File `" filename "` opened read-only, but does not exist!"))))
     ;; ensure parent directories exist
     (.mkdirs (java.io.File. (.getParent (java.io.File. filename))))
     (.make
